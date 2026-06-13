@@ -32,13 +32,16 @@ const Login = () => {
         }
       } else {
         // Login API call
-        const response = await axios.post(`${backendURL}/login`, { email, password } , { withCredentials: true })
+        const response = await axios.post(`${backendURL}/login`, { email, password }, { withCredentials: true })
         if (response.status === 200) {
+          console.log("LOGIN RESPONSE:", response.data); // extra
+
+          localStorage.setItem("token", response.data.token);
+
           setIsLoggedIn(true);
-          getUserData();
+          await getUserData();
+
           navigate('/');
-        } else {
-          toast.error("Email or password is incorrect");
         }
       }
     } catch (error) {
