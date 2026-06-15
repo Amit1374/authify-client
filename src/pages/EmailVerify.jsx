@@ -63,44 +63,186 @@ const EmailVerify = () => {
     }
   }
   return (
-    <div className="email-verify-container d-flex align-items-center justify-content-center vh-100 position-relative"
-      style={{ background: "linear-gradient(90deg, #6a5af9, #8268f9)", borderRadius: "none" }}>
+  <div
+    className="min-vh-100 d-flex justify-content-center align-items-center position-relative px-3"
+    style={{
+      background:
+        "linear-gradient(135deg,#667eea 0%,#764ba2 50%,#6B73FF 100%)",
+      overflow: "hidden",
+    }}
+  >
+    {/* Background Blobs */}
+    <div
+      style={{
+        position: "absolute",
+        width: "400px",
+        height: "400px",
+        borderRadius: "50%",
+        background: "rgba(255,255,255,0.08)",
+        top: "-150px",
+        left: "-120px",
+        filter: "blur(20px)",
+      }}
+    />
 
-      <Link to="/" className=" position-absolute top-0 start-0 p-4 d-flex align-items-center gap-2 text-decoration-none">
-        <img src={assets.logo} alt="logo" height={64} width={64} />
-        <span className='fw-semibold fs-4 text-light'>Authify</span>
+    <div
+      style={{
+        position: "absolute",
+        width: "350px",
+        height: "350px",
+        borderRadius: "50%",
+        background: "rgba(255,255,255,0.08)",
+        bottom: "-150px",
+        right: "-120px",
+        filter: "blur(20px)",
+      }}
+    />
+
+    {/* Logo */}
+    <div
+      style={{
+        position: "absolute",
+        top: "30px",
+        left: "40px",
+      }}
+    >
+      <Link
+        to="/"
+        className="text-decoration-none d-flex align-items-center"
+      >
+        <img
+          src={assets.logo}
+          alt="logo"
+          width={60}
+          height={60}
+        />
+
+        <span
+          className="ms-2 fw-bold text-white"
+          style={{
+            fontSize: "1.7rem",
+          }}
+        >
+          Authify
+        </span>
       </Link>
+    </div>
 
-      <div className="p-5 rounded-4 shadow bg-white" style={{ width: "400px" }}>
-        <h4 className='text-center fw-semibold mb-2'> Email Veriy OTP </h4>
-        <p className='text-center mb-4'>
-          Enter the 6 digit code sent to you email.
+    {/* Card */}
+    <div
+      className="glass-card"
+      style={{
+        width: "100%",
+        maxWidth: "480px",
+      }}
+    >
+      <div className="text-center mb-4">
+        <h2 className="fw-bold text-white">
+          Verify Email
+        </h2>
+
+        <p
+          style={{
+            color: "rgba(255,255,255,0.75)",
+            marginBottom: 0,
+          }}
+        >
+          Enter the 6-digit verification code sent
+          to your email address
         </p>
-
-        <div className="d-flex justify-content-between gap-2 mb-4 text-center text-white-50 mb-2">
-          {[...Array(6)].map((_, i) => (
-            <input
-              key={`email-verify-email-${Math.random()}`}
-              type="text"
-              maxLength={1}
-              className="form-control text-center fs-4 otp-input"
-              ref={(el) => (inputRef.current[i] = el)}
-              onChange={(e) => handleChange(e, i)}
-              onKeyDown={(e) => handleKeyDown(e, i)}
-              onPaste={handlePaste}
-
-            />
-
-          ))}
-        </div>
-        <button className="btn btn-primary w-100 fw-semibold" disabled={loading} onClick={handleVerify}>
-          {loading ? "Verifying..." : "Verify email"} 
-        </button>
-
       </div>
 
+      <div className="d-flex justify-content-center gap-2 mb-4">
+        {[...Array(6)].map((_, i) => (
+          <input
+            key={`email-verify-email-${Math.random()}`}
+            type="text"
+            maxLength={1}
+            className="otp-box"
+            ref={(el) => (inputRef.current[i] = el)}
+            onChange={(e) => handleChange(e, i)}
+            onKeyDown={(e) => handleKeyDown(e, i)}
+            onPaste={handlePaste}
+          />
+        ))}
+      </div>
+
+      <button
+        className="btn verify-btn w-100 fw-bold"
+        disabled={loading}
+        onClick={handleVerify}
+      >
+        {loading
+          ? "Verifying..."
+          : "Verify Email"}
+      </button>
     </div>
-  )
+
+    <style>{`
+      .glass-card {
+        padding: 2.5rem;
+        border-radius: 30px;
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid rgba(255,255,255,0.15);
+        box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+      }
+
+      .otp-box {
+        width: 55px;
+        height: 55px;
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.08);
+        color: white;
+        text-align: center;
+        font-size: 1.4rem;
+        font-weight: 600;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+
+      .otp-box:focus {
+        border-color: rgba(255,255,255,0.5);
+        background: rgba(255,255,255,0.12);
+        box-shadow:
+          0 0 0 4px rgba(255,255,255,0.08),
+          0 0 20px rgba(255,255,255,0.15);
+      }
+
+      .verify-btn {
+        height: 56px;
+        border-radius: 14px !important;
+        border: none !important;
+        background: linear-gradient(
+          135deg,
+          #ffffff,
+          #f1f4ff
+        ) !important;
+        color: #5b4df7 !important;
+        font-weight: 700;
+        transition: all 0.3s ease;
+      }
+
+      .verify-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+      }
+
+      @media (max-width: 576px) {
+        .glass-card {
+          padding: 1.5rem;
+        }
+
+        .otp-box {
+          width: 45px;
+          height: 45px;
+          font-size: 1.1rem;
+        }
+      }
+    `}</style>
+  </div>
+);
 }
 
 export default EmailVerify

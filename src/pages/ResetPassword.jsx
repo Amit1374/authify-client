@@ -96,112 +96,292 @@ const ResetPassword = () => {
 
   const { getUserData, isLoggedIn, userData, backendURL } = useContext(AppContext);
 
-
   return (
-    <div>
+  <div
+    className="min-vh-100 d-flex justify-content-center align-items-center position-relative px-3"
+    style={{
+      background:
+        "linear-gradient(135deg,#667eea 0%,#764ba2 50%,#6B73FF 100%)",
+      overflow: "hidden",
+    }}
+  >
+    {/* Background Blobs */}
+    <div
+      style={{
+        position: "absolute",
+        width: "400px",
+        height: "400px",
+        borderRadius: "50%",
+        background: "rgba(255,255,255,0.08)",
+        top: "-150px",
+        left: "-120px",
+        filter: "blur(20px)",
+      }}
+    />
 
-      <div className="email-verify-container d-flex align-items-center justify-content-center vh-100 position-relative"
-        style={{ background: "linear-gradient(90deg, #6a5af9, #8268f9)", border: "none" }}>
+    <div
+      style={{
+        position: "absolute",
+        width: "350px",
+        height: "350px",
+        borderRadius: "50%",
+        background: "rgba(255,255,255,0.08)",
+        bottom: "-150px",
+        right: "-120px",
+        filter: "blur(20px)",
+      }}
+    />
 
-        <Link to="/" className="position-absolute top-0 start-0 p-4 d-flex align-items-center gap-2 text-decoration-none">
+    {/* Logo */}
+    <div
+      style={{
+        position: "absolute",
+        top: "30px",
+        left: "40px",
+      }}
+    >
+      <Link
+        to="/"
+        className="text-decoration-none d-flex align-items-center"
+      >
+        <img
+          src={assets.logo}
+          alt="logo"
+          width={60}
+          height={60}
+        />
 
-          <img src={assets.logo} alt="logo" height={64} width={64} />
-          <span className='fs-4 fw-semibold text-light'>Authify</span>
-        </Link>
+        <span
+          className="ms-2 fw-bold text-white"
+          style={{
+            fontSize: "1.7rem",
+          }}
+        >
+          Authify
+        </span>
+      </Link>
+    </div>
 
-        {/* Reset password card */}
-        {!isEmailSent && (
-          <div className=" rounded-4 p-5 text-center bg-white" style={{ width: "100%", maxWidth: "400px" }}>
-            <h4 className="mb-2">Reset Password </h4>
-            <p className=" mb-4">Enter your registered email address </p>
+    {/* STEP 1 - EMAIL */}
+    {!isEmailSent && (
+      <div
+        className="glass-card"
+        style={{
+          width: "100%",
+          maxWidth: "450px",
+        }}
+      >
+        <h2 className="fw-bold text-white text-center">
+          Reset Password
+        </h2>
 
-            <form onSubmit={onSubmitEmail}>
-              <div className="input-group mb-4 bg-secondary bg-opacity-10 rounded-pill">
-                <span className="input-group-text bg-transparent border-0 ps-4">
-                  <i className="bi bi-envelope"></i>
+        <p
+          className="text-center mb-4"
+          style={{
+            color: "rgba(255,255,255,0.75)",
+          }}
+        >
+          Enter your registered email address
+        </p>
 
-                </span>
-                <input type="email"
-                  className="form-control bg-transparent border-0 ps-1 pe-4 rounded-end"
-                  placeholder="Enter your email address"
-                  style={{ height: " 50px" }}
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                  required
-                />
-              </div>
-              <button className="btn btn-primary w-100 py-2" type="submit" disabled={loading}>
-                {loading ? "Loading..." : "Submit"}
-              </button>
-
-            </form>
-          </div> 
-        )} 
-        {/* OTP */}
-        {!isOtpSubmitted && isEmailSent && (
-          <div className="p-5 rounded-4 shadow bg-white" style={{ width: "400px" }}>
-            <h4 className='text-center fw-semibold mb-2'>Veriy OTP </h4>
-            <p className='text-center mb-4'>
-              Enter the 6 digit code sent to you email.
-            </p>
-
-            <div className="d-flex justify-content-between gap-2 mb-4 text-center text-white-50 mb-2">
-              {[...Array(6)].map((_, i) => (
-                <input
-                  key={`email-verify-email-${Math.random()}`}
-                  type="text"
-                  maxLength={1}
-                  className="form-control text-center fs-4 otp-input"
-                  ref={(el) => (inputRef.current[i] = el)}
-                  onChange={(e) => handleChange(e, i)}
-                  onKeyDown={(e) => handleKeyDown(e, i)}
-                  onPaste={handlePaste}
-
-                />
-
-              ))}
-             
-
-            </div>
-            <button className="btn btn-primary w-100 fw-semibold" disabled={loading} onClick={handleVerify}>
-              {loading ? "Verifying..." : "Verify OTP"}
-            </button>
-
+        <form onSubmit={onSubmitEmail}>
+          <div className="mb-4">
+            <input
+              type="email"
+              className="form-control modern-input"
+              placeholder="Email Address"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+              required
+            />
           </div>
 
-        )}
-         { /* new Paaword form */}
-              {isOtpSubmitted && isEmailSent && (
-                <div className="rounded-4 p-4 text-center bg-white" style ={{ width:"100%", maxWidth:"400px"}}>
-                  <h4>New Password</h4>
-                  <p className="mb-4">Enter the new password below</p>
-                  <form  onSubmit = {onSubmitNewPassword}>
-                    <div className="input-group mb-4 bg-secondary bg-opacity-10 rounded-pill">
-                     <span className="input-group-text bg-transparent border-0 ps-4">
-                       <i className="bi bi-person-fill-lock"></i>
-                     </span>
-                     <input type="password" 
-                        className='form-control bg-transparent border-0 ps-1 pe-4 rounded-end'
-                        placeholder='***********'
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        value={newPassword}
-                        required
-                     />
-                    </div>
-                    <button type="submit" className="btn btn-primary w-100" disabled = {loading}>
-                        {loading ? "Loading..." : "Submit"}
-                    </button>
-                  </form>
-                </div>
-    
-
-              )}
-
-
-
+          <button
+            className="btn verify-btn w-100"
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? "Loading..." : "Continue"}
+          </button>
+        </form>
       </div>
-    </div>
-  )
+    )}
+
+    {/* STEP 2 - OTP */}
+    {!isOtpSubmitted && isEmailSent && (
+      <div
+        className="glass-card"
+        style={{
+          width: "100%",
+          maxWidth: "480px",
+        }}
+      >
+        <h2 className="fw-bold text-white text-center">
+          Verify OTP
+        </h2>
+
+        <p
+          className="text-center mb-4"
+          style={{
+            color: "rgba(255,255,255,0.75)",
+          }}
+        >
+          Enter the 6-digit code sent to your email
+        </p>
+
+        <div className="d-flex justify-content-center gap-2 mb-4">
+          {[...Array(6)].map((_, i) => (
+            <input
+              key={i}
+              type="text"
+              maxLength={1}
+              className="otp-box"
+              ref={(el) => (inputRef.current[i] = el)}
+              onChange={(e) => handleChange(e, i)}
+              onKeyDown={(e) => handleKeyDown(e, i)}
+              onPaste={handlePaste}
+            />
+          ))}
+        </div>
+
+        <button
+          className="btn verify-btn w-100"
+          disabled={loading}
+          onClick={handleVerify}
+        >
+          {loading ? "Verifying..." : "Verify OTP"}
+        </button>
+      </div>
+    )}
+
+    {/* STEP 3 - NEW PASSWORD */}
+    {isOtpSubmitted && isEmailSent && (
+      <div
+        className="glass-card"
+        style={{
+          width: "100%",
+          maxWidth: "450px",
+        }}
+      >
+        <h2 className="fw-bold text-white text-center">
+          Create New Password
+        </h2>
+
+        <p
+          className="text-center mb-4"
+          style={{
+            color: "rgba(255,255,255,0.75)",
+          }}
+        >
+          Enter your new password below
+        </p>
+
+        <form onSubmit={onSubmitNewPassword}>
+          <div className="mb-4">
+            <input
+              type="password"
+              className="form-control modern-input"
+              placeholder="New Password"
+              onChange={(e) => setNewPassword(e.target.value)}
+              value={newPassword}
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="btn verify-btn w-100"
+            disabled={loading}
+          >
+            {loading ? "Loading..." : "Reset Password"}
+          </button>
+        </form>
+      </div>
+    )}
+
+    <style>{`
+      .glass-card {
+        padding: 2.5rem;
+        border-radius: 30px;
+        background: rgba(255,255,255,0.12);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        border: 1px solid rgba(255,255,255,0.15);
+        box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+      }
+
+      .modern-input {
+        height: 56px;
+        border-radius: 14px !important;
+        border: 1px solid rgba(255,255,255,0.15) !important;
+        background: rgba(255,255,255,0.08) !important;
+        color: white !important;
+      }
+
+      .modern-input::placeholder {
+        color: rgba(255,255,255,0.65);
+      }
+
+      .modern-input:focus {
+        background: rgba(255,255,255,0.12) !important;
+        border-color: rgba(255,255,255,0.4) !important;
+        box-shadow:
+          0 0 0 4px rgba(255,255,255,0.08),
+          0 0 20px rgba(255,255,255,0.15) !important;
+      }
+
+      .otp-box {
+        width: 55px;
+        height: 55px;
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.08);
+        color: white;
+        text-align: center;
+        font-size: 1.4rem;
+        font-weight: 600;
+        outline: none;
+      }
+
+      .otp-box:focus {
+        border-color: rgba(255,255,255,0.5);
+        box-shadow:
+          0 0 0 4px rgba(255,255,255,0.08),
+          0 0 20px rgba(255,255,255,0.15);
+      }
+
+      .verify-btn {
+        height: 56px;
+        border-radius: 14px !important;
+        border: none !important;
+        background: linear-gradient(
+          135deg,
+          #ffffff,
+          #f1f4ff
+        ) !important;
+        color: #5b4df7 !important;
+        font-weight: 700;
+        transition: all 0.3s ease;
+      }
+
+      .verify-btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+      }
+
+      @media (max-width: 576px) {
+        .glass-card {
+          padding: 1.5rem;
+        }
+
+        .otp-box {
+          width: 45px;
+          height: 45px;
+          font-size: 1.1rem;
+        }
+      }
+    `}</style>
+  </div>
+);
 }
 
 export default ResetPassword
